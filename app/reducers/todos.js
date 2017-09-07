@@ -5,7 +5,19 @@ export default function todos(state=null, action) {
         case types.FETCH_TODOS: 
             return action.payload
 
+        case types.ADD_TODO: 
+            console.log('state', state, action);
+            return [...state, 
+                { 
+                    "id": _.random(1, 100),
+                    "text": action.name, 
+                    "author": "congo", 
+                    "completed": false
+                }
+            ]
+
         default:
             return state
     }
+
 }

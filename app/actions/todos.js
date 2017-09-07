@@ -1,5 +1,6 @@
 import * as types from '../constants/ActionTypes';
 import axios from 'axios';
+import _ from 'lodash';
 
 export const fetchTodos = () => (
     (dispatch, getState) => {
@@ -8,7 +9,7 @@ export const fetchTodos = () => (
         request
             .then(res => {
                 dispatch({ 
-                    type: 'FETCH_TODOS', 
+                    type: types.FETCH_TODOS, 
                     payload: res.data 
                 }) 
             }).catch(err => console.log(err))
@@ -16,7 +17,27 @@ export const fetchTodos = () => (
 )
 
 
-export const addTodo = name => ({ type: types.ADD_TODO, name });
+export const addTodo = name => (
+   (dispatch, getState) => {
+        const request = axios.post(`${types.REST}/todos`, 
+            { 
+                "id": _.random(1, 100),
+                "text": name, 
+                "author": "congo", 
+                "completed": false
+            }
+        );
+
+        request.then(res => {
+            dispatch({
+                type: types.ADD_TODO,
+                name
+            })
+        }).catch(err => console.log(err))
+   }
+);
+
+
 export const deleteTodo = id => ({ type: types.DELETE_TODO, todo });
 export const editTodo = (id, name) => ({ type: types.EDIT_TODO, name });
 export const clearAllTodos = () => ({ type: types.CLEAR_ALL });
