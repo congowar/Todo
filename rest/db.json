@@ -5,6 +5,12 @@
       "text": "Use Redux",
       "author": "congo",
       "completed": false
+    },
+    {
+      "id": 2,
+      "text": "bum",
+      "author": "congo",
+      "completed": false
     }
   ]
 }

@@ -3,41 +3,53 @@ import axios from 'axios';
 import _ from 'lodash';
 
 export const fetchTodos = () => (
-    (dispatch, getState) => {
-        const request = axios.get(`${types.REST}/todos`);
+  (dispatch, getState) => {
+    const request = axios.get(`${types.REST}/todos`);
 
-        request
-            .then(res => {
-                dispatch({ 
-                    type: types.FETCH_TODOS, 
-                    payload: res.data 
-                }) 
-            }).catch(err => console.log(err))
-    }
+    request
+      .then(res => {
+        dispatch({
+          type: types.FETCH_TODOS,
+          payload: res.data
+        })
+      }).catch(err => console.log(err))
+  }
 )
 
-
 export const addTodo = name => (
-   (dispatch, getState) => {
-        const request = axios.post(`${types.REST}/todos`, 
-            { 
-                "id": _.random(1, 100),
-                "text": name, 
-                "author": "congo", 
-                "completed": false
-            }
-        );
+  (dispatch, getState) => {
+    const request = axios.post(`${types.REST}/todos`,
+      {
+        "id": _.random(1, 100),
+        "text": name,
+        "author": "congo",
+        "completed": false
+      }
+    );
 
-        request.then(res => {
-            dispatch({
-                type: types.ADD_TODO,
-                name
-            })
-        }).catch(err => console.log(err))
-   }
+    request.then(res => {
+      dispatch({
+        type: types.ADD_TODO,
+        name
+      })
+    }).catch(err => console.log(err))
+  }
 );
 
+export const clearAllTodos = () => (
+  (dispatch, getState) => {
+    axios.get(`${types.REST}/todos?_start=0&_end=1`)
+      .then(res => dispatch({ type: types.CLEAR_ALL }))
+      .catch(err => console.log(err));
+  }
+);
 
-export const deleteTodo = id => ({ type: types.DELETE_TODO, todo });
-export const editTodo = (id, name) => ({ type: types.EDIT_TODO, name });
-export const clearAllTodos = () => ({ type: types.CLEAR_ALL });
+export const setComplete = (id, completed) => {
+  (dispatch, getState) => {
+    axios.put(`${types.REST}/todos/${id}`,
+      {
+        
+      }
+    )
+  }
+}
